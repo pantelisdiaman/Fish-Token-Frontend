@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Fish-Token-Frontend/static/css/main.e04c132a.css",
-    "main.js": "/Fish-Token-Frontend/static/js/main.dceabcc4.js",
+    "main.js": "/Fish-Token-Frontend/static/js/main.b3494a6d.js",
     "static/media/fish.png": "/Fish-Token-Frontend/static/media/fish.7d91b9df216df1b97b57.png",
     "index.html": "/Fish-Token-Frontend/index.html",
     "main.e04c132a.css.map": "/Fish-Token-Frontend/static/css/main.e04c132a.css.map",
-    "main.dceabcc4.js.map": "/Fish-Token-Frontend/static/js/main.dceabcc4.js.map"
+    "main.b3494a6d.js.map": "/Fish-Token-Frontend/static/js/main.b3494a6d.js.map"
   },
   "entrypoints": [
     "static/css/main.e04c132a.css",
-    "static/js/main.dceabcc4.js"
+    "static/js/main.b3494a6d.js"
   ]
 }
