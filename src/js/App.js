@@ -8,15 +8,13 @@ import Earn from './Earn';
 
 function App() {
   return (
-    <Router>
-        <Routes>
-        <Route path="/">
-          <Route index element={<MainPage />} />
-          <Route path="wallet" element={<Wallet />} />
-          <Route path="earn" element={<Earn />} />
-          <Route path="trade" element={<Trade />} />
-          <Route path="invite" element={<Invite />} />
-        </Route>
+    <Router basename="/Fish-Token-Frontend">
+      <Routes>
+        <Route index element={<MainPage />} />
+        <Route path="/wallet" element={<Wallet />} />
+        <Route path="/earn" element={<Earn />} />
+        <Route path="/trade" element={<Trade />} />
+        <Route path="/invite" element={<Invite />} />
       </Routes>
     </Router>
   );
