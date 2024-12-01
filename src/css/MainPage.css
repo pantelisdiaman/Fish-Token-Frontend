@@ -1,0 +1,14 @@
+.svg-container {
+  display: flex;
+  justify-content: center; /* Οριζόντιο κεντράρισμα */
+  align-items: center; /* Κατακόρυφο κεντράρισμα */
+  height: 100vh; /* Καταλαμβάνει όλο το ύψος της οθόνης */
+}
+
+.responsive-svg {
+  max-height: 100%; /* Το SVG να μην ξεπερνά το ύψος της οθόνης */
+}
+
+body {
+  margin: 0;
+}
