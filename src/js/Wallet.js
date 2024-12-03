@@ -7,6 +7,7 @@
 
 import React from "react";
 import '../css/MainPage.css';
+import { Link } from "react-router-dom";
 
 const WalletComponent = () => (
   <div className="svg-container">
@@ -8365,6 +8366,14 @@ const WalletComponent = () => (
           transform="translate(801.574 2167.788) rotate(-90)"
         />
       </g>
+      <Link to="/earn">
+      <g className="rh" transform="matrix(1, 0, 0, 1, 0, 0)">
+        <text className="pu" transform="translate(82.9 2157.79)">
+          <tspan x={0} y={0}>
+            {"Earn"}
+          </tspan>
+        </text>
+      </g>
       <g transform="translate(29.795 1976.826)">
         <g transform="translate(31.852 4.547)">
           <path
@@ -8438,6 +8447,15 @@ const WalletComponent = () => (
           d="M132.751,259.257l.682.341-.682.341a11.426,11.426,0,0,0-8.52,8.52l-.341.682-.341-.682a11.426,11.426,0,0,0-8.52-8.52l-.682-.341.682-.341a11.426,11.426,0,0,0,8.52-8.52l.341-.682.341.682A11.97,11.97,0,0,0,132.751,259.257Z"
           transform="translate(46.777 -221.947)"
         />
+      </g>
+      </Link>
+      <Link to="/invite">
+      <g className="rg" transform="matrix(1, 0, 0, 1, 0, 0)">
+        <text className="pu" transform="translate(349 2157.79)">
+          <tspan x={0} y={0}>
+            {"Invite"}
+          </tspan>
+        </text>
       </g>
       <g transform="translate(339.721 1974.367)">
         <g className="qc" transform="translate(0 0)">
@@ -8601,6 +8619,15 @@ const WalletComponent = () => (
           </g>
         </g>
       </g>
+      </Link>
+      <Link to="/trade">
+      <g className="rf" transform="matrix(1, 0, 0, 1, 0, 0)">
+        <text className="pu" transform="translate(627 2157.79)">
+          <tspan x={0} y={0}>
+            {"Trade"}
+          </tspan>
+        </text>
+      </g>
       <g transform="translate(603.532 1965.26)">
         <path
           className="qe"
@@ -8758,6 +8785,15 @@ const WalletComponent = () => (
           transform="translate(-540.808 -560.838)"
         />
       </g>
+      </Link>
+      <Link to="/wallet">
+      <g className="re" transform="matrix(1, 0, 0, 1, 0, 0)">
+        <text className="pu" transform="translate(896 2157.79)">
+          <tspan x={0} y={0}>
+            {"Wallet"}
+          </tspan>
+        </text>
+      </g>
       <g transform="translate(890.688 1967.094)">
         <path
           className="qs"
@@ -8817,34 +8853,7 @@ const WalletComponent = () => (
           />
         </g>
       </g>
-      <g className="rh" transform="matrix(1, 0, 0, 1, 0, 0)">
-        <text className="pu" transform="translate(82.9 2157.79)">
-          <tspan x={0} y={0}>
-            {"Earn"}
-          </tspan>
-        </text>
-      </g>
-      <g className="rg" transform="matrix(1, 0, 0, 1, 0, 0)">
-        <text className="pu" transform="translate(349 2157.79)">
-          <tspan x={0} y={0}>
-            {"Invite"}
-          </tspan>
-        </text>
-      </g>
-      <g className="rf" transform="matrix(1, 0, 0, 1, 0, 0)">
-        <text className="pu" transform="translate(627 2157.79)">
-          <tspan x={0} y={0}>
-            {"Trade"}
-          </tspan>
-        </text>
-      </g>
-      <g className="re" transform="matrix(1, 0, 0, 1, 0, 0)">
-        <text className="pu" transform="translate(896 2157.79)">
-          <tspan x={0} y={0}>
-            {"Wallet"}
-          </tspan>
-        </text>
-      </g>
+      </Link>
     </g>
   </svg>
   </div>

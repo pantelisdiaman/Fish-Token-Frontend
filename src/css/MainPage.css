@@ -15,5 +15,5 @@ body {
 
 @font-face {
   font-family: "MADETOMMY-ExtraBold";
-  src: url("/fonts/MADETOMMY-ExtraBold.otf") format("otf");
+  src: url("/public/fonts/MADETOMMY-ExtraBold.otf") format("otf");
 }
