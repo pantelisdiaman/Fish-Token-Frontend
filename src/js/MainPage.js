@@ -8,8 +8,6 @@ const HomeComponent = () => {
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // Hook to access the location object (URL)
   const [telegramUID, setTelegramUID] = useState(null); // State to hold telegramUID
-  const [userExists, setUserExists] = useState(null); // State to track if user exists
-  const [message, setMessage] = useState(''); // Message for user feedback
 
   // Function to extract Telegram UID from query parameters
   useEffect(() => {
@@ -33,15 +31,13 @@ const HomeComponent = () => {
 
       const data = await response.json();
       if (data.exists) {
-        setUserExists(true);
         loginUser(uid); // If user exists, log them in
       } else {
-        setUserExists(false);
-        setMessage('User not found. Do you want to register?');
+        createUser() // If not, create an account
       }
     } catch (error) {
       console.error('Error checking user existence:', error);
-      setMessage('An error occurred. Please try again.');
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -59,14 +55,13 @@ const HomeComponent = () => {
       if (response.ok) {
         const { token } = await response.json();
         localStorage.setItem('token', token); // Save the session token
-        setMessage('Login successful!');
         navigate('/trade'); // Navigate to the trade page on success
       } else {
-        setMessage('Failed to log in:', await response.json());
+        alert('Failed to log in:', await response.json());
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      setMessage('An error occurred. Please try again.');
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -82,22 +77,21 @@ const HomeComponent = () => {
       });
 
       if (response.ok) {
-        setMessage('User created successfully!');
         loginUser(telegramUID); // Automatically log in the user after creation
       } else {
         const data = await response.json();
-        setMessage(`Error creating user: ${data.error}`);
+        alert(`Error creating user: ${data.error}`);
       }
     } catch (error) {
       console.error('Error creating user:', error);
-      setMessage('An error occurred. Please try again.');
+      alert('An error occurred. Please try again.');
     }
   };
 
   // Function to handle the "Start Trading" button click
   const handleStartTrading = () => {
     if (!telegramUID) {
-      setMessage('TelegramUID not found. Please restart the process.');
+      alert('TelegramUID not found. Please restart the process.');
       return;
     }
 
