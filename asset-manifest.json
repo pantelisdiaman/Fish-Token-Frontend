@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Fish-Token-Frontend/static/css/main.e666ecaf.css",
-    "main.js": "/Fish-Token-Frontend/static/js/main.f93dfeec.js",
+    "main.js": "/Fish-Token-Frontend/static/js/main.d72573e1.js",
     "static/media/fish.png": "/Fish-Token-Frontend/static/media/fish.7d91b9df216df1b97b57.png",
     "static/media/MADETOMMY-ExtraBold.otf": "/Fish-Token-Frontend/static/media/MADETOMMY-ExtraBold.76e6daa1c9100e32f75e.otf",
     "index.html": "/Fish-Token-Frontend/index.html",
     "main.e666ecaf.css.map": "/Fish-Token-Frontend/static/css/main.e666ecaf.css.map",
-    "main.f93dfeec.js.map": "/Fish-Token-Frontend/static/js/main.f93dfeec.js.map"
+    "main.d72573e1.js.map": "/Fish-Token-Frontend/static/js/main.d72573e1.js.map"
   },
   "entrypoints": [
     "static/css/main.e666ecaf.css",
-    "static/js/main.f93dfeec.js"
+    "static/js/main.d72573e1.js"
   ]
 }
