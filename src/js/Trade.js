@@ -5,13 +5,72 @@
  *
  **/
 
-import React from "react";
-import '../css/MainPage.css';
+import React, { useState, useEffect } from "react";
+import '../css/AllPages.css';
 import { Link } from "react-router-dom";
 
-const HomeComponent = () => (
+const HomeComponent = () => {
+
+  const [connectedExchanges, setConnectedExchanges] = useState({
+    Binance: null,
+    Bitget: null,
+    OKX: null,
+    Bybit: null,
+  });
+
+  // Fetch connected exchanges from the API
+  const fetchConnectedExchanges = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/connected_exchanges', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      });
+
+      const data = await response.json();
+      setConnectedExchanges(data); // Set connected status based on API data
+    } catch (error) {
+      console.error('Error fetching connected exchanges:', error);
+    }
+  };
+
+  // Call fetchConnectedExchanges on component mount
+  useEffect(() => {
+    fetchConnectedExchanges();
+  }, []);
+
+  // Function to connect an exchange
+  const connectExchange = async (exchange, uid) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/connect_exchange', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: JSON.stringify({ exchange, uid }), // Send exchange and uid in the request body
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        // If successful, refetch the connected exchanges
+        fetchConnectedExchanges();
+      } else {
+        // Handle error
+        console.error('Error connecting exchange:', result.error);
+      }
+    } catch (error) {
+      console.error('Error connecting exchange:', error);
+    }
+  };
+
+  return (
   <div className="svg-container">
-  <svg className="responsive-svg" width={1080} height={2212} viewBox="0 0 1080 2212">
+  <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
     <defs>
       <style>
         {
@@ -7618,7 +7677,7 @@ const HomeComponent = () => (
       </g>
       <text className="of" transform="translate(132 937.242)">
         <tspan x={0} y={0}>
-          {"UID: 12345678"}
+          {connectedExchanges.Bitget !== null ? "UID: " + connectedExchanges.Bitget : 'UID:'}
         </tspan>
       </text>
       <g transform="translate(-88 -1013)">
@@ -7650,9 +7709,40 @@ const HomeComponent = () => (
           </tspan>
         </text>
       </g>
-      <g transform="translate(615.882 394.218)">
+      {connectedExchanges.Binance ? (
+              <g transform="translate(615.882 394.218)">
+              <g transform="translate(-7.561)">
+                <g className="oj">
+                  <rect className="ri" width={382.135} height={121.907} rx={38} />
+                  <rect
+                    className="c"
+                    x={-3.5}
+                    y={-3.5}
+                    width={389.135}
+                    height={128.907}
+                    rx={41.5}
+                  />
+                </g>
+                <g className="sb" transform="matrix(1, 0, 0, 1, -608.32, -394.22)">
+                  <rect
+                    className="ok"
+                    width={344.065}
+                    height={92.113}
+                    rx={30}
+                    transform="translate(627.36 409.11)"
+                  />
+                </g>
+              </g>
+              <text className="ol" transform="translate(62.007 75.453)">
+                <tspan x={0} y={0}>
+                  {"CONNECTED"}
+                </tspan>
+              </text>
+            </g>
+            ) : (
+                <g transform="translate(615.882 394.218)">
         <g transform="translate(-7.561)">
-          <g className="oj">
+          <g className="om">
             <rect className="ri" width={382.135} height={121.907} rx={38} />
             <rect
               className="c"
@@ -7663,22 +7753,23 @@ const HomeComponent = () => (
               rx={41.5}
             />
           </g>
-          <g className="sb" transform="matrix(1, 0, 0, 1, -608.32, -394.22)">
+          <g className="ru" transform="matrix(1, 0, 0, 1, -608.32, -1032.22)">
             <rect
-              className="ok"
+              className="on"
               width={344.065}
               height={92.113}
               rx={30}
-              transform="translate(627.36 409.11)"
+              transform="translate(627.36 1047.11)"
             />
           </g>
         </g>
-        <text className="ol" transform="translate(62.007 75.453)">
+        <text className="oo" transform="translate(101.507 75.453)">
           <tspan x={0} y={0}>
-            {"CONNECTED"}
+            {"SIGN UP"}
           </tspan>
         </text>
       </g>
+            )}
       <g transform="translate(-88 -694)">
         <g transform="translate(149 1382)">
           <g className="og">
@@ -7746,12 +7837,43 @@ const HomeComponent = () => (
       </g>
       <text className="of" transform="translate(132 1255.571)">
         <tspan x={0} y={0}>
-          {"UID: 12345678"}
+          {connectedExchanges.OKX !== null ? "UID: " + connectedExchanges.OKX : 'UID:'}
         </tspan>
       </text>
-      <g transform="translate(615.882 713.218)">
+      {connectedExchanges.Bitget ? (
+              <g transform="translate(615.882 713.218)">
+              <g transform="translate(-7.561)">
+                <g className="oj">
+                  <rect className="ri" width={382.135} height={121.907} rx={38} />
+                  <rect
+                    className="c"
+                    x={-3.5}
+                    y={-3.5}
+                    width={389.135}
+                    height={128.907}
+                    rx={41.5}
+                  />
+                </g>
+                <g className="sb" transform="matrix(1, 0, 0, 1, -608.32, -394.22)">
+                  <rect
+                    className="ok"
+                    width={344.065}
+                    height={92.113}
+                    rx={30}
+                    transform="translate(627.36 409.11)"
+                  />
+                </g>
+              </g>
+              <text className="ol" transform="translate(62.007 75.453)">
+                <tspan x={0} y={0}>
+                  {"CONNECTED"}
+                </tspan>
+              </text>
+            </g>
+            ) : (
+                <g transform="translate(615.882 713.218)">
         <g transform="translate(-7.561)">
-          <g className="oj">
+          <g className="om">
             <rect className="ri" width={382.135} height={121.907} rx={38} />
             <rect
               className="c"
@@ -7762,22 +7884,23 @@ const HomeComponent = () => (
               rx={41.5}
             />
           </g>
-          <g className="rx" transform="matrix(1, 0, 0, 1, -608.32, -713.22)">
+          <g className="ru" transform="matrix(1, 0, 0, 1, -608.32, -1032.22)">
             <rect
-              className="ok"
+              className="on"
               width={344.065}
               height={92.113}
               rx={30}
-              transform="translate(627.36 728.11)"
+              transform="translate(627.36 1047.11)"
             />
           </g>
         </g>
-        <text className="ol" transform="translate(62.007 75.453)">
+        <text className="oo" transform="translate(101.507 75.453)">
           <tspan x={0} y={0}>
-            {"CONNECTED"}
+            {"SIGN UP"}
           </tspan>
         </text>
       </g>
+            )}
       <g transform="translate(-88 -375)">
         <g transform="translate(149 1382)">
           <g className="og">
@@ -7834,7 +7957,38 @@ const HomeComponent = () => (
           </tspan>
         </text>
       </g>
-      <g transform="translate(615.882 1032.218)">
+      {connectedExchanges.OKX ? (
+              <g transform="translate(615.882 1032.218)">
+              <g transform="translate(-7.561)">
+                <g className="oj">
+                  <rect className="ri" width={382.135} height={121.907} rx={38} />
+                  <rect
+                    className="c"
+                    x={-3.5}
+                    y={-3.5}
+                    width={389.135}
+                    height={128.907}
+                    rx={41.5}
+                  />
+                </g>
+                <g className="sb" transform="matrix(1, 0, 0, 1, -608.32, -394.22)">
+                  <rect
+                    className="ok"
+                    width={344.065}
+                    height={92.113}
+                    rx={30}
+                    transform="translate(627.36 409.11)"
+                  />
+                </g>
+              </g>
+              <text className="ol" transform="translate(62.007 75.453)">
+                <tspan x={0} y={0}>
+                  {"CONNECTED"}
+                </tspan>
+              </text>
+            </g>
+            ) : (
+                <g transform="translate(615.882 1032.218)">
         <g transform="translate(-7.561)">
           <g className="om">
             <rect className="ri" width={382.135} height={121.907} rx={38} />
@@ -7863,9 +8017,10 @@ const HomeComponent = () => (
           </tspan>
         </text>
       </g>
+            )}
       <text className="of" transform="translate(132 618.242)">
         <tspan x={0} y={0}>
-          {"UID: 12345678"}
+          {connectedExchanges.Binance !== null ? "UID: " + connectedExchanges.Binance : 'UID:'}
         </tspan>
       </text>
       <g className="rt" transform="matrix(1, 0, 0, 1, 0, 0)">
@@ -7879,7 +8034,7 @@ const HomeComponent = () => (
       </g>
       <text className="of" transform="translate(132 1573.9)">
         <tspan x={0} y={0}>
-          {"UID: 12345678"}
+          {connectedExchanges.Bybit !== null ? "UID: " + connectedExchanges.Bybit : 'UID:'}
         </tspan>
       </text>
       <g transform="translate(-88 -56.671)">
@@ -7938,7 +8093,38 @@ const HomeComponent = () => (
           </tspan>
         </text>
       </g>
-      <g transform="translate(615.882 1349.876)">
+      {connectedExchanges.Bybit ? (
+              <g transform="translate(615.882 1349.876)">
+              <g transform="translate(-7.561)">
+                <g className="oj">
+                  <rect className="ri" width={382.135} height={121.907} rx={38} />
+                  <rect
+                    className="c"
+                    x={-3.5}
+                    y={-3.5}
+                    width={389.135}
+                    height={128.907}
+                    rx={41.5}
+                  />
+                </g>
+                <g className="sb" transform="matrix(1, 0, 0, 1, -608.32, -394.22)">
+                  <rect
+                    className="ok"
+                    width={344.065}
+                    height={92.113}
+                    rx={30}
+                    transform="translate(627.36 409.11)"
+                  />
+                </g>
+              </g>
+              <text className="ol" transform="translate(62.007 75.453)">
+                <tspan x={0} y={0}>
+                  {"CONNECTED"}
+                </tspan>
+              </text>
+            </g>
+            ) : (
+                <g transform="translate(615.882 1349.876)">
         <g transform="translate(-7.561)">
           <g className="om">
             <rect className="ri" width={382.135} height={121.907} rx={38} />
@@ -7951,13 +8137,13 @@ const HomeComponent = () => (
               rx={41.5}
             />
           </g>
-          <g className="rq" transform="matrix(1, 0, 0, 1, -608.32, -1349.88)">
+          <g className="ru" transform="matrix(1, 0, 0, 1, -608.32, -1032.22)">
             <rect
-              className="op"
+              className="on"
               width={344.065}
               height={92.113}
               rx={30}
-              transform="translate(627.36 1364.77)"
+              transform="translate(627.36 1047.11)"
             />
           </g>
         </g>
@@ -7967,6 +8153,7 @@ const HomeComponent = () => (
           </tspan>
         </text>
       </g>
+            )}
       <g transform="translate(747.768 21.242)">
         <g className="lz">
           <g transform="translate(0 0.002)">
@@ -9094,4 +9281,5 @@ const HomeComponent = () => (
   </svg>
   </div>
 );
+};
 export default HomeComponent;

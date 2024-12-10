@@ -6,12 +6,12 @@
  **/
 
 import React from "react";
-import '../css/MainPage.css';
+import '../css/AllPages.css';
 import { Link } from "react-router-dom";
 
 const HomeComponent = () => (
   <div className="svg-container">
-  <svg className="responsive-svg" width={1080} height={2212} viewBox="0 0 1080 2212">
+  <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
     <defs>
       <style>
         {

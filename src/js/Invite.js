@@ -5,13 +5,50 @@
  *
  **/
 
-import React from "react";
-import '../css/MainPage.css';
+import React, { useState, useEffect } from "react";
+import '../css/AllPages.css';
 import { Link } from "react-router-dom";
 
-const HomeComponent = () => (
+const HomeComponent = () => {
+
+  // State to store the friends invited
+  const [invited, setInvited] = useState(null);
+
+  // Function to fetch invited from the Flask API
+  const fetchInvited = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/invited', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      });
+
+      const data = await response.json();
+      setInvited(data.invited); // Assuming the API response is { "invited": count }
+    } catch (error) {
+      console.error('Error fetching balance:', error);
+    }
+  };
+
+  // UseEffect to call fetchBalance when the component mounts
+  useEffect(() => {
+    fetchInvited();
+  }, []);
+
+  const inviteCode = `t.me/FishTokenTestBot?start=from${localStorage.getItem('telegramUID')}`;
+
+  // Function to handle copying the invite code
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(inviteCode);
+    alert('Invite code copied to clipboard!');
+  };
+
+  return (
   <div className="svg-container">
-  <svg className="responsive-svg" width={1080} height={2212} viewBox="0 0 1080 2212">
+  <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
     <defs>
       <style>
         {
@@ -7306,9 +7343,9 @@ const HomeComponent = () => (
             />
           </g>
         </g>
-        <text className="oc" transform="translate(240 1493)">
+        <text className="oc" transform="translate(240 1493)" >
           <tspan x={0} y={0}>
-            {"T.ME/LITTLEFISHTOKEN"}
+            {'t.me/FishTokenTestBot'}
           </tspan>
         </text>
       </g>
@@ -8254,7 +8291,7 @@ const HomeComponent = () => (
           />
         </g>
       </g>
-      <g transform="translate(251.56 629.966)">
+      <g transform="translate(251.56 629.966)" onClick={handleCopyCode}>
         <g transform="translate(-7.561)">
           <g className="pp">
             <rect className="ri" width={592.742} height={184.141} rx={38} />
@@ -8384,14 +8421,14 @@ const HomeComponent = () => (
         </g>
       </g>
       <g transform="translate(0 1)">
-        <text className="qb" transform="translate(479 1139)">
+        <text className="qb" transform="translate(482 1139)">
           <tspan x={0} y={0}>
-            {"4"}
+            {invited !== null ? invited : ''}
           </tspan>
         </text>
-        <text className="qc" transform="translate(479 1139)">
+        <text className="qc" transform="translate(482 1139)">
           <tspan x={0} y={0}>
-            {"4"}
+            {invited !== null ? invited : ''}
           </tspan>
         </text>
       </g>
@@ -8467,7 +8504,7 @@ const HomeComponent = () => (
       <g className="rr" transform="matrix(1, 0, 0, 1, 0, 0)">
         <text className="qf" transform="translate(640.2 1660)">
           <tspan x={-151.815} y={0}>
-            {"24.000"}
+            {"0"}
           </tspan>
         </text>
       </g>
@@ -9002,4 +9039,6 @@ const HomeComponent = () => (
   </svg>
   </div>
 );
+};
+
 export default HomeComponent;

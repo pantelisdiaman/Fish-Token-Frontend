@@ -1,43 +1,81 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import fishImage from '../assets/fish.png';
-import '../css/MainPage.css';
+import '../css/AllPages.css';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const HomeComponent = () => {
 
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // Hook to access the location object (URL)
-  const [telegramUID, setTelegramUID] = useState(null); // State to hold telegramUID
 
   // Function to extract Telegram UID from query parameters
   useEffect(() => {
     const params = new URLSearchParams(location.search); // Get the query parameters
+
+    // Check for invitation
+    const fromUID = params.get('from');
+    if (fromUID) {
+      localStorage.setItem('fromUID', fromUID);
+
+      // Check if the user exists and if not inform the about the invite
+      checkUserExistsAndInformAboutInvite();
+    }
+
+    // Check for telegramUID and login/create account
     const uid = params.get('telegramUID'); // Extract telegramUID
     if (uid) {
-      setTelegramUID(uid); // Set the telegramUID if it exists in the URL
+      localStorage.setItem('telegramUID', uid); // Set the telegramUID if it exists in the URL
+
+      // Check if the user exists and log them in or register
+      checkUserExistsAndLoginOrCreateUser();
     }
+    else {
+      alert('Telegram ID not found, please restart the process.');
+    }
+
   }, [location.search]); // This will run every time the search part of the URL changes
 
   // Function to check if the user exists
-  const checkUserExists = async (uid) => {
+  const checkUserExistsAndLoginOrCreateUser = async () => {
     try {
       const response = await fetch('https://flask-backend-815i.onrender.com/api/check_user_exists', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ TelegramUID: uid }),
+        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID') }),
       });
 
       const data = await response.json();
       if (data.exists) {
-        loginUser(uid); // If user exists, log them in
+        loginUser(localStorage.getItem('telegramUID')); // If user exists, log them in
       } else {
         createUser() // If not, create an account
       }
     } catch (error) {
       console.error('Error checking user existence:', error);
-      alert('An error occurred. Please try again.');
+      alert('An error occurred. Please restart the page.');
+    }
+  };
+
+  // Function to check if the user exists
+  const checkUserExistsAndInformAboutInvite = async () => {
+    try {
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/check_user_exists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID') }),
+      });
+
+      const data = await response.json();
+      if (!data.exists) {
+        alert('You have been invited by: ' + localStorage.getItem('fromUID'));// If user doesn't exist, inform about the invite
+      }
+    } catch (error) {
+      console.error('Error checking user existence:', error);
+      alert('An error occurred. Please restart the page.');
     }
   };
 
@@ -55,7 +93,6 @@ const HomeComponent = () => {
       if (response.ok) {
         const { token } = await response.json();
         localStorage.setItem('token', token); // Save the session token
-        navigate('/trade'); // Navigate to the trade page on success
       } else {
         alert('Failed to log in:', await response.json());
       }
@@ -73,11 +110,11 @@ const HomeComponent = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ TelegramUID: telegramUID }),
+        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID') }),
       });
 
       if (response.ok) {
-        loginUser(telegramUID); // Automatically log in the user after creation
+        loginUser(localStorage.getItem('telegramUID')); // Automatically log in the user after creation
       } else {
         const data = await response.json();
         alert(`Error creating user: ${data.error}`);
@@ -86,17 +123,6 @@ const HomeComponent = () => {
       console.error('Error creating user:', error);
       alert('An error occurred. Please try again.');
     }
-  };
-
-  // Function to handle the "Start Trading" button click
-  const handleStartTrading = () => {
-    if (!telegramUID) {
-      alert('TelegramUID not found. Please restart the process.');
-      return;
-    }
-
-    // Check if the user exists and log them in or prompt to register
-    checkUserExists(telegramUID);
   };
 
   return (
@@ -7835,7 +7861,7 @@ const HomeComponent = () => {
           </g>
         </g>
         </Link>
-        <g transform="translate(0 146)" onClick={handleStartTrading}>
+        <g transform="translate(0 146)" onClick={navigate('/trade')}>
           <g transform="translate(-2699 2722)">
             <g className="pi" transform="translate(2848 -1340)">
               <rect className="ql" width={783} height={200} rx={38} />
