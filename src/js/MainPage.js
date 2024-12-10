@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import fishImage from '../assets/fish.png';
 import '../css/AllPages.css';
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -7,6 +7,9 @@ const HomeComponent = () => {
 
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // Hook to access the location object (URL)
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   // Function to check if the user exists
   const checkUserExistsAndLoginOrCreateUser = async () => {
@@ -66,6 +69,7 @@ const HomeComponent = () => {
       if (response.ok) {
         const { token } = await response.json();
         localStorage.setItem('token', token); // Save the session token
+        setIsLoggedIn(true);
       } else {
         alert('Failed to log in:', await response.json());
       }
@@ -126,7 +130,25 @@ const HomeComponent = () => {
   }, [location.search]); // This will run every time the search part of the URL changes
 
   return (
-    <div className="svg-container">
+    <div className="svg-container" style={{
+      pointerEvents: !isLoggedIn ? "none" : "auto",
+      opacity: !isLoggedIn ? 0.5 : 1,
+    }}>
+      {!isLoggedIn ? <div
+        style={{
+          display: 'inline-block',
+          width: '5vw',
+          height: '5vw',
+          position: 'fixed',
+          left: '45%',
+          top: '45%',
+          border: '5px solid #f3f3f3', // Εξωτερικό χρώμα
+          borderTop: '5px solid #3498db', // Χρώμα της γραμμής που περιστρέφεται
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite', // Animation
+        }}
+        ></div>
+      : ''}
     <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
       <defs>
         <style>
