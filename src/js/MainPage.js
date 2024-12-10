@@ -110,7 +110,7 @@ const HomeComponent = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID') }),
+        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID'), FromUID: localStorage.getItem('fromUID') }),
       });
 
       if (response.ok) {
