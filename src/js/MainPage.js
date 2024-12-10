@@ -8,33 +8,6 @@ const HomeComponent = () => {
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // Hook to access the location object (URL)
 
-  // Function to extract Telegram UID from query parameters
-  useEffect(() => {
-    const params = new URLSearchParams(location.search); // Get the query parameters
-
-    // Check for invitation
-    const fromUID = params.get('from');
-    if (fromUID) {
-      localStorage.setItem('fromUID', fromUID);
-
-      // Check if the user exists and if not inform the about the invite
-      checkUserExistsAndInformAboutInvite();
-    }
-
-    // Check for telegramUID and login/create account
-    const uid = params.get('telegramUID'); // Extract telegramUID
-    if (uid) {
-      localStorage.setItem('telegramUID', uid); // Set the telegramUID if it exists in the URL
-
-      // Check if the user exists and log them in or register
-      checkUserExistsAndLoginOrCreateUser();
-    }
-    else {
-      alert('Telegram ID not found, please restart the process.');
-    }
-
-  }, [location.search]); // This will run every time the search part of the URL changes
-
   // Function to check if the user exists
   const checkUserExistsAndLoginOrCreateUser = async () => {
     try {
@@ -124,6 +97,33 @@ const HomeComponent = () => {
       alert('An error occurred. Please try again.');
     }
   };
+
+  // Function to extract Telegram UID from query parameters
+  useEffect(() => {
+    const params = new URLSearchParams(location.search); // Get the query parameters
+
+    // Check for invitation
+    const fromUID = params.get('from');
+    if (fromUID) {
+      localStorage.setItem('fromUID', fromUID);
+
+      // Check if the user exists and if not inform the about the invite
+      checkUserExistsAndInformAboutInvite();
+    }
+
+    // Check for telegramUID and login/create account
+    const uid = params.get('telegramUID'); // Extract telegramUID
+    if (uid) {
+      localStorage.setItem('telegramUID', uid); // Set the telegramUID if it exists in the URL
+
+      // Check if the user exists and log them in or register
+      checkUserExistsAndLoginOrCreateUser();
+    }
+    else {
+      alert('Telegram ID not found, please restart the process.');
+    }
+
+  }, [location.search]); // This will run every time the search part of the URL changes
 
   return (
     <div className="svg-container">
@@ -7861,7 +7861,7 @@ const HomeComponent = () => {
           </g>
         </g>
         </Link>
-        <g transform="translate(0 146)" onClick={navigate('/trade')}>
+        <g transform="translate(0 146)" onClick={() => navigate('/trade')}>
           <g transform="translate(-2699 2722)">
             <g className="pi" transform="translate(2848 -1340)">
               <rect className="ql" width={783} height={200} rx={38} />
