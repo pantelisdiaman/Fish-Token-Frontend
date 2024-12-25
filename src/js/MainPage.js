@@ -48,12 +48,11 @@ const HomeComponent = () => {
       const data = await response.json();
       if (!data.exists) {
         // Get name of inviter
-        const response = await fetch('https://flask-backend-815i.onrender.com/api/get_fullname', {
-          method: 'POST',
+        const response = await fetch(`https://flask-backend-815i.onrender.com/api/get_fullname?TelegramUID=${localStorage.getItem('fromUID')}`, {
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID') }),
         });
         const data = await response.json();
 

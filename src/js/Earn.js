@@ -5,11 +5,93 @@
  *
  **/
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import '../css/AllPages.css';
 import { Link } from "react-router-dom";
 
-const HomeComponent = () => (
+const HomeComponent = () => {
+
+  // State to store the tasks
+  const [tasks, setTasks] = useState([]);
+  // State to store the completed task IDs
+  const [completedTasks, setCompletedTasks] = useState([]);
+
+  // Function to fetch tasks from the API
+  const fetchTasks = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/tasks_on', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      });
+
+      const data = await response.json();
+      setTasks(data.tasks); // Set the tasks to state
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    }
+  };
+
+  // Function to fetch completed tasks
+  const fetchCompletedTasks = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/completed_tasks', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      });
+
+      const data = await response.json();
+      setCompletedTasks(data.completed_task_ids);  // Set the task IDs to state
+    } catch (error) {
+      console.error('Error fetching completed tasks:', error);
+    }
+  };
+
+  // Use useEffect to call fetchTasks when the component mounts
+  useEffect(() => {
+    fetchTasks();
+    fetchCompletedTasks();
+  }, []);
+
+  const redirectToLink = (url, TaskID, Reward) => {
+    window.open(url, '_blank');
+    completeTask(TaskID, Reward)
+  };
+
+  // Function to fetch completed tasks
+  const completeTask = async (TaskID, Reward) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/add_task_completion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        body: JSON.stringify({ TaskID, Reward }), // Send exchange and uid in the request body
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        // If successful, refetch the connected exchanges
+        fetchCompletedTasks();
+      } else {
+        // Handle error
+        console.error('Error completing task:', result.error);
+      }
+    } catch (error) {
+      console.error('Error completing task:', error);
+    }
+  };
+
+  return (
   <div className="svg-container">
   <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
     <defs>
@@ -7293,40 +7375,6 @@ const HomeComponent = () => (
           />
         </g>
       </g>
-      <g transform="translate(-88 -1013)">
-        <g transform="translate(149 1382)">
-          <g className="oa">
-            <rect className="rd" width={959} height={243} rx={38} />
-            <rect
-              className="c"
-              x={-5}
-              y={-5}
-              width={969}
-              height={253}
-              rx={43}
-            />
-          </g>
-          <g className="rp" transform="matrix(1, 0, 0, 1, -61, -369)">
-            <rect
-              className="ob"
-              width={913}
-              height={207}
-              rx={43}
-              transform="translate(84 387)"
-            />
-          </g>
-        </g>
-        <text className="oc" transform="translate(222 1500)">
-          <tspan x={0} y={0}>
-            {"FOLLOW DOGS ON X"}
-          </tspan>
-        </text>
-        <text className="od" transform="translate(222 1565)">
-          <tspan x={0} y={0}>
-            {"CLA\u0130M THE TASK"}
-          </tspan>
-        </text>
-      </g>
       <g transform="translate(747.768 21.242)">
         <g className="ly">
           <g transform="translate(0 0.002)">
@@ -7923,76 +7971,10 @@ const HomeComponent = () => (
           />
         </g>
       </g>
-      <g transform="translate(-88 -730)">
-        <g transform="translate(149 1382)">
-          <g className="oa">
-            <rect className="rd" width={959} height={243} rx={38} />
-            <rect
-              className="c"
-              x={-5}
-              y={-5}
-              width={969}
-              height={253}
-              rx={43}
-            />
-          </g>
-          <g className="ro" transform="matrix(1, 0, 0, 1, -61, -652)">
-            <rect
-              className="ob"
-              width={913}
-              height={207}
-              rx={43}
-              transform="translate(84 670)"
-            />
-          </g>
-        </g>
-        <text className="oc" transform="translate(222 1500)">
-          <tspan x={0} y={0}>
-            {"FOLLOW DOGS ON X"}
-          </tspan>
-        </text>
-        <text className="od" transform="translate(222 1565)">
-          <tspan x={0} y={0}>
-            {"CLA\u0130M THE TASK"}
-          </tspan>
-        </text>
-      </g>
-      <g transform="translate(-88 -447)">
-        <g transform="translate(149 1382)">
-          <g className="oa">
-            <rect className="rd" width={959} height={243} rx={38} />
-            <rect
-              className="c"
-              x={-5}
-              y={-5}
-              width={969}
-              height={253}
-              rx={43}
-            />
-          </g>
-          <g className="rn" transform="matrix(1, 0, 0, 1, -61, -935)">
-            <rect
-              className="ob"
-              width={913}
-              height={207}
-              rx={43}
-              transform="translate(84 953)"
-            />
-          </g>
-        </g>
-        <text className="oc" transform="translate(222 1500)">
-          <tspan x={0} y={0}>
-            {"FOLLOW DOGS ON X"}
-          </tspan>
-        </text>
-        <text className="od" transform="translate(222 1565)">
-          <tspan x={0} y={0}>
-            {"CLA\u0130M THE TASK"}
-          </tspan>
-        </text>
-      </g>
-      <g transform="translate(-88 -164)">
-        <g transform="translate(149 1382)">
+
+      {tasks && tasks[0] && completedTasks && completedTasks.includes(tasks[0].TaskID) ? (
+        <g transform="translate(-88 -1013)">
+          <g transform="translate(149 1382)">
           <g className="pl">
             <rect className="rd" width={959} height={243} rx={38} />
             <rect
@@ -8016,18 +7998,56 @@ const HomeComponent = () => (
         </g>
         <text className="pn" transform="translate(222 1500)">
           <tspan x={0} y={0}>
-            {"FOLLOW DOGS ON X"}
+            {tasks[0].TaskName}
           </tspan>
         </text>
         <text className="po" transform="translate(222 1565)">
           <tspan x={0} y={0}>
-            {"CLA\u0130MED"}
+            {"CLAIMED"}
           </tspan>
         </text>
       </g>
-      <g transform="translate(-88 119)">
-        <g transform="translate(149 1382)">
-          <g className="oa">
+      ) : (tasks && tasks[0] ? (
+        <g transform="translate(-88 -1013)" onClick={() => redirectToLink(tasks[0].Link, tasks[0].TaskID, tasks[0].Reward)}>
+          <g transform="translate(149 1382)">
+            <g className="oa">
+              <rect className="rd" width={959} height={243} rx={38} />
+              <rect
+                className="c"
+                x={-5}
+                y={-5}
+                width={969}
+                height={253}
+                rx={43}
+              />
+            </g>
+            <g className="rp" transform="matrix(1, 0, 0, 1, -61, -369)">
+              <rect
+                className="ob"
+                width={913}
+                height={207}
+                rx={43}
+                transform="translate(84 387)"
+              />
+            </g>
+          </g>
+          <text className="oc" transform="translate(222 1500)">
+            <tspan x={0} y={0}>
+              {tasks[0].TaskName}
+            </tspan>
+          </text>
+          <text className="od" transform="translate(222 1565)">
+            <tspan x={0} y={0}>
+              {`CLAIM THE TASK - ${tasks[0].Reward} $LFISH`}
+            </tspan>
+          </text>
+        </g>
+      ) : (null))};
+
+      {tasks && tasks[1] && completedTasks && completedTasks.includes(tasks[1].TaskID) ? (
+        <g transform="translate(-88 -730)">
+          <g transform="translate(149 1382)">
+          <g className="pl">
             <rect className="rd" width={959} height={243} rx={38} />
             <rect
               className="c"
@@ -8038,27 +8058,280 @@ const HomeComponent = () => (
               rx={43}
             />
           </g>
-          <g className="rl" transform="matrix(1, 0, 0, 1, -61, -1501)">
+          <g className="rm" transform="matrix(1, 0, 0, 1, -61, -1218)">
             <rect
-              className="ob"
+              className="pm"
               width={913}
               height={207}
               rx={43}
-              transform="translate(84 1519)"
+              transform="translate(84 1236)"
             />
           </g>
         </g>
-        <text className="oc" transform="translate(222 1500)">
+        <text className="pn" transform="translate(222 1500)">
           <tspan x={0} y={0}>
-            {"FOLLOW DOGS ON X"}
+            {tasks[1].TaskName}
           </tspan>
         </text>
-        <text className="od" transform="translate(222 1565)">
+        <text className="po" transform="translate(222 1565)">
           <tspan x={0} y={0}>
-            {"CLA\u0130M THE TASK"}
+            {"CLAIMED"}
           </tspan>
         </text>
       </g>
+      ) : (tasks && tasks[1] ? (
+        <g transform="translate(-88 -730)" onClick={() => redirectToLink(tasks[1].Link, tasks[1].TaskID, tasks[1].Reward)}>
+          <g transform="translate(149 1382)">
+            <g className="oa">
+              <rect className="rd" width={959} height={243} rx={38} />
+              <rect
+                className="c"
+                x={-5}
+                y={-5}
+                width={969}
+                height={253}
+                rx={43}
+              />
+            </g>
+            <g className="rp" transform="matrix(1, 0, 0, 1, -61, -369)">
+              <rect
+                className="ob"
+                width={913}
+                height={207}
+                rx={43}
+                transform="translate(84 387)"
+              />
+            </g>
+          </g>
+          <text className="oc" transform="translate(222 1500)">
+            <tspan x={0} y={0}>
+              {tasks[1].TaskName}
+            </tspan>
+          </text>
+          <text className="od" transform="translate(222 1565)">
+            <tspan x={0} y={0}>
+              {`CLAIM THE TASK - ${tasks[1].Reward} $LFISH`}
+            </tspan>
+          </text>
+        </g>
+      ) : (null))};
+
+      {tasks && tasks[2] && completedTasks && completedTasks.includes(tasks[2].TaskID) ? (
+        <g transform="translate(-88 -447)">
+          <g transform="translate(149 1382)">
+          <g className="pl">
+            <rect className="rd" width={959} height={243} rx={38} />
+            <rect
+              className="c"
+              x={-5}
+              y={-5}
+              width={969}
+              height={253}
+              rx={43}
+            />
+          </g>
+          <g className="rm" transform="matrix(1, 0, 0, 1, -61, -1218)">
+            <rect
+              className="pm"
+              width={913}
+              height={207}
+              rx={43}
+              transform="translate(84 1236)"
+            />
+          </g>
+        </g>
+        <text className="pn" transform="translate(222 1500)">
+          <tspan x={0} y={0}>
+            {tasks[2].TaskName}
+          </tspan>
+        </text>
+        <text className="po" transform="translate(222 1565)">
+          <tspan x={0} y={0}>
+            {"CLAIMED"}
+          </tspan>
+        </text>
+      </g>
+      ) : (tasks && tasks[2] ? (
+        <g transform="translate(-88 -447)" onClick={() => redirectToLink(tasks[2].Link, tasks[2].TaskID, tasks[2].Reward)}>
+          <g transform="translate(149 1382)">
+            <g className="oa">
+              <rect className="rd" width={959} height={243} rx={38} />
+              <rect
+                className="c"
+                x={-5}
+                y={-5}
+                width={969}
+                height={253}
+                rx={43}
+              />
+            </g>
+            <g className="rp" transform="matrix(1, 0, 0, 1, -61, -369)">
+              <rect
+                className="ob"
+                width={913}
+                height={207}
+                rx={43}
+                transform="translate(84 387)"
+              />
+            </g>
+          </g>
+          <text className="oc" transform="translate(222 1500)">
+            <tspan x={0} y={0}>
+              {tasks[2].TaskName}
+            </tspan>
+          </text>
+          <text className="od" transform="translate(222 1565)">
+            <tspan x={0} y={0}>
+              {`CLAIM THE TASK - ${tasks[2].Reward} $LFISH`}
+            </tspan>
+          </text>
+        </g>
+      ) : (null))};
+
+      {tasks && tasks[3] && completedTasks && completedTasks.includes(tasks[3].TaskID) ? (
+        <g transform="translate(-88 -164)">
+          <g transform="translate(149 1382)">
+          <g className="pl">
+            <rect className="rd" width={959} height={243} rx={38} />
+            <rect
+              className="c"
+              x={-5}
+              y={-5}
+              width={969}
+              height={253}
+              rx={43}
+            />
+          </g>
+          <g className="rm" transform="matrix(1, 0, 0, 1, -61, -1218)">
+            <rect
+              className="pm"
+              width={913}
+              height={207}
+              rx={43}
+              transform="translate(84 1236)"
+            />
+          </g>
+        </g>
+        <text className="pn" transform="translate(222 1500)">
+          <tspan x={0} y={0}>
+            {tasks[3].TaskName}
+          </tspan>
+        </text>
+        <text className="po" transform="translate(222 1565)">
+          <tspan x={0} y={0}>
+            {"CLAIMED"}
+          </tspan>
+        </text>
+      </g>
+      ) : (tasks && tasks[3] ? (
+        <g transform="translate(-88 -164)" onClick={() => redirectToLink(tasks[3].Link, tasks[3].TaskID, tasks[3].Reward)}>
+          <g transform="translate(149 1382)">
+            <g className="oa">
+              <rect className="rd" width={959} height={243} rx={38} />
+              <rect
+                className="c"
+                x={-5}
+                y={-5}
+                width={969}
+                height={253}
+                rx={43}
+              />
+            </g>
+            <g className="rp" transform="matrix(1, 0, 0, 1, -61, -369)">
+              <rect
+                className="ob"
+                width={913}
+                height={207}
+                rx={43}
+                transform="translate(84 387)"
+              />
+            </g>
+          </g>
+          <text className="oc" transform="translate(222 1500)">
+            <tspan x={0} y={0}>
+              {tasks[3].TaskName}
+            </tspan>
+          </text>
+          <text className="od" transform="translate(222 1565)">
+            <tspan x={0} y={0}>
+              {`CLAIM THE TASK - ${tasks[3].Reward} $LFISH`}
+            </tspan>
+          </text>
+        </g>
+      ) : (null))};
+
+      {tasks && tasks[4] && completedTasks && completedTasks.includes(tasks[4].TaskID) ? (
+        <g transform="translate(-88 119)">
+          <g transform="translate(149 1382)">
+          <g className="pl">
+            <rect className="rd" width={959} height={243} rx={38} />
+            <rect
+              className="c"
+              x={-5}
+              y={-5}
+              width={969}
+              height={253}
+              rx={43}
+            />
+          </g>
+          <g className="rm" transform="matrix(1, 0, 0, 1, -61, -1218)">
+            <rect
+              className="pm"
+              width={913}
+              height={207}
+              rx={43}
+              transform="translate(84 1236)"
+            />
+          </g>
+        </g>
+        <text className="pn" transform="translate(222 1500)">
+          <tspan x={0} y={0}>
+            {tasks[4].TaskName}
+          </tspan>
+        </text>
+        <text className="po" transform="translate(222 1565)">
+          <tspan x={0} y={0}>
+            {"CLAIMED"}
+          </tspan>
+        </text>
+      </g>
+      ) : (tasks && tasks[4] ? (
+        <g transform="translate(-88 119)" onClick={() => redirectToLink(tasks[4].Link, tasks[4].TaskID, tasks[4].Reward)}>
+          <g transform="translate(149 1382)">
+            <g className="oa">
+              <rect className="rd" width={959} height={243} rx={38} />
+              <rect
+                className="c"
+                x={-5}
+                y={-5}
+                width={969}
+                height={253}
+                rx={43}
+              />
+            </g>
+            <g className="rp" transform="matrix(1, 0, 0, 1, -61, -369)">
+              <rect
+                className="ob"
+                width={913}
+                height={207}
+                rx={43}
+                transform="translate(84 387)"
+              />
+            </g>
+          </g>
+          <text className="oc" transform="translate(222 1500)">
+            <tspan x={0} y={0}>
+              {tasks[4].TaskName}
+            </tspan>
+          </text>
+          <text className="od" transform="translate(222 1565)">
+            <tspan x={0} y={0}>
+              {`CLAIM THE TASK - ${tasks[4].Reward} $LFISH`}
+            </tspan>
+          </text>
+        </g>
+      ) : (null))};
+
       <g transform="translate(-10544.318 -2531.36)">
         <g transform="translate(10894.318 2705.549)">
           <g transform="translate(0 3.306)">
@@ -8664,4 +8937,5 @@ const HomeComponent = () => (
   </svg>
   </div>
 );
+};
 export default HomeComponent;

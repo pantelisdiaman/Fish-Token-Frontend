@@ -12,13 +12,14 @@ import { Link } from "react-router-dom";
 const HomeComponent = () => {
 
   // State to store the friends invited
-  const [invited, setInvited] = useState(null);
+  const [invited_count, setInvitedNumber] = useState(null);
+  const invite_reward = 400;
 
-  // Function to fetch invited from the Flask API
+  // Function to fetch invited count from the Flask API
   const fetchInvited = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://flask-backend-815i.onrender.com/api/invited', {
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/invited_count', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -27,9 +28,38 @@ const HomeComponent = () => {
       });
 
       const data = await response.json();
-      setInvited(data.invited); // Assuming the API response is { "invited": count }
+      setInvitedNumber(data.invited_count); // Assuming the API response is { "invited_count": count }
     } catch (error) {
-      console.error('Error fetching balance:', error);
+      console.error('Error fetching invited count:', error);
+    }
+  };
+
+  // Function to fetch invited people from the Flask API
+  const displayInvited = async () => {
+    if (!invited_count || invited_count === 0) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('https://flask-backend-815i.onrender.com/api/invited_names', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      });
+
+      const data = await response.json();
+      if (data.invited_names) {
+        // Join names with newlines and display in an alert
+        const namesString = data.invited_names.join('\n');
+        alert(`People you invited so far:\n\n${namesString}`);
+      } else if (data.error) {
+        console.error('Error:', data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching invited people:', error);
     }
   };
 
@@ -8291,7 +8321,7 @@ const HomeComponent = () => {
           />
         </g>
       </g>
-      <g transform="translate(251.56 629.966)" onClick={handleCopyCode}>
+      <g transform="translate(251.56 629.966)" onClick={() => handleCopyCode() }>
         <g transform="translate(-7.561)">
           <g className="pp">
             <rect className="ri" width={592.742} height={184.141} rx={38} />
@@ -8320,7 +8350,7 @@ const HomeComponent = () => {
           </tspan>
         </text>
       </g>
-      <g transform="translate(0 -17)">
+      <g transform="translate(0 -17)" onClick={ () => displayInvited() }>
         <g transform="translate(-1335.307 990.679)">
           <g transform="translate(1699.205 -70.738)">
             <path
@@ -8420,15 +8450,15 @@ const HomeComponent = () => {
           </g>
         </g>
       </g>
-      <g transform="translate(0 1)">
+      <g transform="translate(0 1)" onClick={ () => displayInvited() }>
         <text className="qb" transform="translate(482 1139)">
           <tspan x={0} y={0}>
-            {invited !== null ? invited : ''}
+            {invited_count !== null ? invited_count : ''}
           </tspan>
         </text>
         <text className="qc" transform="translate(482 1139)">
           <tspan x={0} y={0}>
-            {invited !== null ? invited : ''}
+            {invited_count !== null ? invited_count : ''}
           </tspan>
         </text>
       </g>
@@ -8504,7 +8534,7 @@ const HomeComponent = () => {
       <g className="rr" transform="matrix(1, 0, 0, 1, 0, 0)">
         <text className="qf" transform="translate(640.2 1660)">
           <tspan x={-151.815} y={0}>
-            {"0"}
+            {invited_count !== null ? invited_count*invite_reward : ''}
           </tspan>
         </text>
       </g>

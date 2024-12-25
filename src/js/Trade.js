@@ -68,6 +68,13 @@ const HomeComponent = () => {
     }
   };
 
+  const handleUIDInput = async (exchange) => {
+    const uid = prompt(`Enter UID for ${exchange}:`);
+    if (uid) {
+      await connectExchange(exchange, uid);
+    }
+  };
+
   return (
   <div className="svg-container">
   <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
@@ -7675,9 +7682,9 @@ const HomeComponent = () => {
           transform="translate(51 774.17)"
         />
       </g>
-      <text className="of" transform="translate(132 937.242)">
+      <text className="of" transform="translate(90 937.242)" onClick={() => connectedExchanges.Bitget ? null : handleUIDInput('Bitget')}>
         <tspan x={0} y={0}>
-          {connectedExchanges.Bitget !== null ? "UID: " + connectedExchanges.Bitget : 'UID:'}
+          {connectedExchanges.Bitget !== null ? "UID: " + connectedExchanges.Bitget : 'Click to enter UID'}
         </tspan>
       </text>
       <g transform="translate(-88 -1013)">
@@ -7835,9 +7842,9 @@ const HomeComponent = () => {
           transform="translate(51 1092.5)"
         />
       </g>
-      <text className="of" transform="translate(132 1255.571)">
+      <text className="of" transform="translate(90 1255.571)" onClick={() => connectedExchanges.OKX ? null : handleUIDInput('OKX')}>
         <tspan x={0} y={0}>
-          {connectedExchanges.OKX !== null ? "UID: " + connectedExchanges.OKX : 'UID:'}
+          {connectedExchanges.OKX !== null ? "UID: " + connectedExchanges.OKX : 'Click to enter UID'}
         </tspan>
       </text>
       {connectedExchanges.Bitget ? (
@@ -8018,9 +8025,9 @@ const HomeComponent = () => {
         </text>
       </g>
             )}
-      <text className="of" transform="translate(132 618.242)">
+      <text className="of" transform="translate(90 618.242)" onClick={() => connectedExchanges.Binance ? null : handleUIDInput('Binance')}>
         <tspan x={0} y={0}>
-          {connectedExchanges.Binance !== null ? "UID: " + connectedExchanges.Binance : 'UID:'}
+          {connectedExchanges.Binance !== null ? "UID: " + connectedExchanges.Binance : 'Click to enter UID'}
         </tspan>
       </text>
       <g className="rt" transform="matrix(1, 0, 0, 1, 0, 0)">
@@ -8032,9 +8039,9 @@ const HomeComponent = () => {
           transform="translate(51 1410.83)"
         />
       </g>
-      <text className="of" transform="translate(132 1573.9)">
+      <text className="of" transform="translate(90 1573.9)" onClick={() => connectedExchanges.Bybit ? null : handleUIDInput('Bybit')}>
         <tspan x={0} y={0}>
-          {connectedExchanges.Bybit !== null ? "UID: " + connectedExchanges.Bybit : 'UID:'}
+          {connectedExchanges.Bybit !== null ? "UID: " + connectedExchanges.Bybit : 'Click to enter UID'}
         </tspan>
       </text>
       <g transform="translate(-88 -56.671)">
