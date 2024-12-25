@@ -1,15 +1,16 @@
 {
   "files": {
     "main.css": "/Fish-Token-Frontend/static/css/main.64ed7fbd.css",
-    "main.js": "/Fish-Token-Frontend/static/js/main.9df0a845.js",
+    "main.js": "/Fish-Token-Frontend/static/js/main.82df2f22.js",
+    "static/media/wallet_animation.gif": "/Fish-Token-Frontend/static/media/wallet_animation.57bc472d8517ea709c3e.gif",
     "static/media/fish.png": "/Fish-Token-Frontend/static/media/fish.7d91b9df216df1b97b57.png",
     "static/media/MADETOMMY-ExtraBold.otf": "/Fish-Token-Frontend/static/media/MADETOMMY-ExtraBold.76e6daa1c9100e32f75e.otf",
     "index.html": "/Fish-Token-Frontend/index.html",
     "main.64ed7fbd.css.map": "/Fish-Token-Frontend/static/css/main.64ed7fbd.css.map",
-    "main.9df0a845.js.map": "/Fish-Token-Frontend/static/js/main.9df0a845.js.map"
+    "main.82df2f22.js.map": "/Fish-Token-Frontend/static/js/main.82df2f22.js.map"
   },
   "entrypoints": [
     "static/css/main.64ed7fbd.css",
-    "static/js/main.9df0a845.js"
+    "static/js/main.82df2f22.js"
   ]
 }
