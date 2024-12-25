@@ -47,7 +47,19 @@ const HomeComponent = () => {
 
       const data = await response.json();
       if (!data.exists) {
-        alert('You have been invited by: ' + localStorage.getItem('fromUID'));// If user doesn't exist, inform about the invite
+        // Get name of inviter
+        const response = await fetch('https://flask-backend-815i.onrender.com/api/get_fullname', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID') }),
+        });
+        const data = await response.json();
+
+        if (data.fullname) {
+          alert('You have been invited by: ' + data.fullname); // If user doesn't exist, inform about the invite
+        }
       }
     } catch (error) {
       console.error('Error checking user existence:', error);
@@ -87,7 +99,7 @@ const HomeComponent = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID'), FromUID: localStorage.getItem('fromUID') }),
+        body: JSON.stringify({ TelegramUID: localStorage.getItem('telegramUID'), Fullname: localStorage.getItem('fullname'), FromUID: localStorage.getItem('fromUID') }),
       });
 
       if (response.ok) {
@@ -117,8 +129,10 @@ const HomeComponent = () => {
 
     // Check for telegramUID and login/create account
     const uid = params.get('telegramUID'); // Extract telegramUID
-    if (uid) {
-      localStorage.setItem('telegramUID', uid); // Set the telegramUID if it exists in the URL
+    const fullname = params.get('fullname'); // Extract telegramUID
+    if (uid && fullname) {
+      localStorage.setItem('telegramUID', uid); // Set the telegramUID
+      localStorage.setItem('fullname', fullname); // Set the fullname
 
       // Check if the user exists and log them in or register
       checkUserExistsAndLoginOrCreateUser();
@@ -134,21 +148,24 @@ const HomeComponent = () => {
       pointerEvents: !isLoggedIn ? "none" : "auto",
       opacity: !isLoggedIn ? 0.5 : 1,
     }}>
+
       {!isLoggedIn ? <div
-        style={{
-          display: 'inline-block',
-          width: '5vw',
-          height: '5vw',
-          position: 'fixed',
-          left: '45%',
-          top: '45%',
-          border: '5px solid #f3f3f3', // Εξωτερικό χρώμα
-          borderTop: '5px solid #3498db', // Χρώμα της γραμμής που περιστρέφεται
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite', // Animation
-        }}
-        ></div>
-      : ''}
+      style={{
+        display: 'inline-block',
+        width: '5vh',
+        height: '5vh',
+        position: 'fixed',
+        left: '45%',
+        top: '45%',
+        opacity: '1',
+        border: '5px solid #f3f3f3', // Εξωτερικό χρώμα
+        borderTop: '5px solid #3498db', // Χρώμα της γραμμής που περιστρέφεται
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite', // Animation
+      }}
+      ></div>
+    : ''}
+
     <svg className="responsive-svg" preserveAspectRatio="none" width={1080} height={2212} viewBox="0 0 1080 2212">
       <defs>
         <style>
