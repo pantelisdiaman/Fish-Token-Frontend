@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import fishImage from '../assets/fish.png';
 import '../css/AllPages.css';
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useLaunchParams } from "@telegram-apps/sdk-react";
 
 const HomeComponent = () => {
 
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // Hook to access the location object (URL)
+  const launchParams = useLaunchParams(); // Ανάκτηση launch parameters από Telegram
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -115,6 +117,12 @@ const HomeComponent = () => {
 
   // Function to extract Telegram UID from query parameters
   useEffect(() => {
+    if (!launchParams) {
+      alert("Please open this application from Telegram.");
+      return;
+    }
+
+    // Check for invitation
     const params = new URLSearchParams(location.search); // Get the query parameters
 
     // Check for invitation
@@ -126,21 +134,20 @@ const HomeComponent = () => {
       checkUserExistsAndInformAboutInvite();
     }
 
-    // Check for telegramUID and login/create account
-    const uid = params.get('telegramUID'); // Extract telegramUID
-    const fullname = params.get('fullname'); // Extract telegramUID
+    // Check for telegramUID and fullname
+    const uid = launchParams.initData.user?.id;
+    const fullname = `${launchParams.initData.user?.firstName || ""} ${launchParams.initData.user?.lastName || ""}`.trim();
+
     if (uid && fullname) {
-      localStorage.setItem('telegramUID', uid); // Set the telegramUID
-      localStorage.setItem('fullname', fullname); // Set the fullname
+      localStorage.setItem("telegramUID", uid); // Set the telegramUID
+      localStorage.setItem("fullname", fullname); // Set the fullname
 
       // Check if the user exists and log them in or register
       checkUserExistsAndLoginOrCreateUser();
+    } else {
+      alert("Telegram ID not found, please restart the process.");
     }
-    else {
-      alert('Telegram ID not found, please restart the process.');
-    }
-
-  }, [location.search]); // This will run every time the search part of the URL changes
+  }, [launchParams, location.search]);
 
   return (
     <div className="svg-container" style={{
