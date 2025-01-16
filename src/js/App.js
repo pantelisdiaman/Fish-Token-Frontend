@@ -5,6 +5,7 @@ import Wallet from './Wallet';
 import Trade from './Trade';
 import Invite from './Invite';
 import Earn from './Earn';
+import Spin from './Spin';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/earn" element={<Earn />} />
         <Route path="/trade" element={<Trade />} />
         <Route path="/invite" element={<Invite />} />
+        <Route path="/spin" element={<Spin />} />
       </Routes>
     </Router>
   );
